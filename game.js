@@ -73,9 +73,7 @@ function playRound(playerChoice, computerChoice){
 
 function game() {
 
-    var computerScore = 0;
-    var humanScore = 0;
-
+/*
   ///for(let i = 0; i< 5; i++) {
 
     ///    console.log("Round " + parseInt(i+1));
