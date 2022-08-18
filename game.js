@@ -13,6 +13,9 @@ function playRound(playerChoice, computerChoice){
    // let score_flag = 0; // 0 means draw, 1 means lose, 2 means human wins,3 means its invalid
     const resultDisplay = document.createElement('p');
 
+
+
+   /* if(optionList.includes(playerChoice.toLowerCase())){ */
         
         if(playerChoice.toLowerCase() === "rock"){
             
@@ -86,7 +89,7 @@ function playRound(playerChoice, computerChoice){
     resultDisplay.textContent = result; 
     contentDisplay.appendChild(resultDisplay);
     scoreDisplay()
-
+   // return score_flag;
 
 }
 
