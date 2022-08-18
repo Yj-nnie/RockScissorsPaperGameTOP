@@ -8,25 +8,34 @@ function getComputerChoice(){
 
 function playRound(playerChoice, computerChoice){
     
-    let optionList=["rock", "scissors", "paper"];
+    // let optionList=["rock", "scissors", "paper"];
     let result = "";
-    let score_flag = 0; // 0 means draw, 1 means lose, 2 means human wins,3 means its invalid
+   // let score_flag = 0; // 0 means draw, 1 means lose, 2 means human wins,3 means its invalid
     const resultDisplay = document.createElement('p');
 
-    if(optionList.includes(playerChoice.toLowerCase())){
         
         if(playerChoice.toLowerCase() === "rock"){
             
             if(computerChoice === "paper"){
                 result = "You loose, paper beats rock!";
-                score_flag = 1;
+             //     score_flag = 1;
+                // this means Computer ++
+                computerScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
 
             } 
             if(computerChoice === "scissors"){
                 result="You win, rock beats scissors";
-                score_flag = 2;
+             //     score_flag = 2;
+                // this means player ++
+                humanScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
             }
-            if(computerChoice === "rock"){ result="draw";}
+            if(computerChoice === "rock"){ 
+                result="draw";
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
+            }
+
             
         }
 
@@ -34,85 +43,62 @@ function playRound(playerChoice, computerChoice){
             
             if(computerChoice === "scissors"){
                 result = "You loose, scissors beats paper!";
-                score_flag = 1;
+             //     score_flag = 1;
+                // this means computer ++
+                computerScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
             } 
             if(computerChoice === "rock"){
                 result = "You win, paper beats rock!";
-                score_flag = 2;
+             //     score_flag = 2;
+                // this means player++
+                humanScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
             }
-            if(computerChoice === "paper"){ result="draw";}
+            if(computerChoice === "paper"){ result="draw";
+            console.log('human:' + humanScore + ' computer: ' + computerScore)
+            }
         }
 
         if(playerChoice.toLowerCase() === "scissors"){
             
             if(computerChoice === "rock"){
                 result="You loose, rock beats scissors!";
-                score_flag = 1;
+             //     score_flag = 1;
+                // this means computer ++
+                computerScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
             } 
             if(computerChoice === "paper"){
                 result="You win, scissors beats paper!";
-                score_flag = 2;
+             //     score_flag = 2;
+                // this means player ++
+                humanScore ++;
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
             }
-            if(computerChoice === "scissors"){result="draw";}
+            if(computerChoice === "scissors"){
+                result="draw";
+                console.log('human:' + humanScore + ' computer: ' + computerScore)
+            }
             
         }
-    } else {
-    
-        result="enter your choice of the right format";
-        score_flag = 3; 
-    }
 
-    // print result - console.log(result);
     resultDisplay.textContent = result; 
     contentDisplay.appendChild(resultDisplay);
-    return score_flag;
+    scoreDisplay()
+
 
 }
 
-
-
-function game() {
-
-/*
-  ///for(let i = 0; i< 5; i++) {
-
-    ///    console.log("Round " + parseInt(i+1));
-    
-
-        //const playerSelection = prompt("please enter your choice here" )
-        const computerSelection = getComputerChoice();
-
-        let result = playRound(playerSelection,computerSelection)
-
-        if(result === 1){
-            computerScore ++;
-        }   
-        if(result === 2){
-            humanScore ++;
-        }
-
-        if(result === 3){
-            i = i - 1;
-            console.log("enter your choice:again")
-        }
-
-   // }
-
-    if(humanScore > computerScore){
-        console.log("you win")
-    }
-
-    if(computerScore > humanScore){
-        console.log("you loose")
-    }
-
+function scoreDisplay(){
+    const playersScoreDisplay_holder = document.createElement('p');
+    playersScoreDisplay_holder.classList.add('scoreLive')
+    playersScoreDisplay_holder.textContent = 'Your score:' + humanScore + ' VS ' + 'Computer score: ' + computerScore;
+    contentDisplay.appendChild(playersScoreDisplay_holder);
 }
 
-function playTheGame(e){
-    
-    const playerChoice = e.currentTarget.innerText;
-    const computerChoice = getComputerChoice();
-    
+function progressDisplay(playerChoice,computerChoice){
+
     const gameProgress_C = document.createElement('p');
     const gameProgress_p = document.createElement('p');
 
@@ -121,18 +107,60 @@ function playTheGame(e){
 
     gameProgress_C.textContent = 'Computer chooses: ' + computerChoice;
     contentDisplay.appendChild(gameProgress_C);
-
-    playRound(playerChoice, computerChoice);
-
 }
 
-// 1) capturing all the key class
-const choices = Array.from(document.querySelectorAll('.choices')); // or document.querySelectorAll('.choices')
-// 2) for each list Item we add an event listener and put it through PlayerChoice
-choices.forEach(choice => choice.addEventListener('click', playTheGame))
+function pickTheWinner(){
+
+    if(humanScore > computerScore){
+        console.log("you are the winner")
+    }
+
+    if(computerScore > humanScore){
+        console.log("The computer wins")
+    } 
+}
+
+function playTheGame(e){
+
+    const playerChoice = e.currentTarget.innerText;
+    const computerChoice = getComputerChoice();
+    progressDisplay(playerChoice,computerChoice);
+
+    if (humanScore < 5 && computerScore < 5){
+        playRound(playerChoice, computerChoice)
+    } else {
+        console.log('FINISH: human:' + humanScore + ' computer: ' + computerScore)
+        pickTheWinner()
+    };
+  
+}
+
+
+
+function initiateGame() {
+
+    const choices = Array.from(document.querySelectorAll('.choices'));
+    choices.forEach(function(choice){return choice.addEventListener('click', playTheGame)})
+
+        
+}
+ 
+
+// Global variable need to be accessible in all functions
+var computerScore = 0;
+var humanScore = 0;
 
 const content = document.querySelector('body');
-// !! here I learnt that contentDisplay CAN be used and refered to in other functions it's Global. 
+
+// default page display
 let contentDisplay = document.createElement('div');
+let scoreTitle = document.createElement('h1');
+scoreTitle.textContent = 'Scores:';
+// update plage display to DOM 
 content.appendChild(contentDisplay)
+contentDisplay.appendChild(scoreTitle)
+
+// start playing the game
+initiateGame()
+
 
