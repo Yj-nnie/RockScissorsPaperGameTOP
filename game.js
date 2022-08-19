@@ -8,20 +8,14 @@ function getComputerChoice(){
 
 function playRound(playerChoice, computerChoice){
     
-    // let optionList=["rock", "scissors", "paper"];
     let result = "";
-   // let score_flag = 0; // 0 means draw, 1 means lose, 2 means human wins,3 means its invalid
+
     const resultDisplay = document.createElement('p');
-
-
-
-   /* if(optionList.includes(playerChoice.toLowerCase())){ */
         
         if(playerChoice.toLowerCase() === "rock"){
             
             if(computerChoice === "paper"){
                 result = "You loose, paper beats rock!";
-             //     score_flag = 1;
                 // this means Computer ++
                 computerScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
@@ -29,7 +23,6 @@ function playRound(playerChoice, computerChoice){
             } 
             if(computerChoice === "scissors"){
                 result="You win, rock beats scissors";
-             //     score_flag = 2;
                 // this means player ++
                 humanScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
@@ -46,14 +39,13 @@ function playRound(playerChoice, computerChoice){
             
             if(computerChoice === "scissors"){
                 result = "You loose, scissors beats paper!";
-             //     score_flag = 1;
                 // this means computer ++
                 computerScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
             } 
             if(computerChoice === "rock"){
                 result = "You win, paper beats rock!";
-             //     score_flag = 2;
+          
                 // this means player++
                 humanScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
@@ -67,14 +59,14 @@ function playRound(playerChoice, computerChoice){
             
             if(computerChoice === "rock"){
                 result="You loose, rock beats scissors!";
-             //     score_flag = 1;
+     
                 // this means computer ++
                 computerScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
             } 
             if(computerChoice === "paper"){
                 result="You win, scissors beats paper!";
-             //     score_flag = 2;
+             
                 // this means player ++
                 humanScore ++;
                 console.log('human:' + humanScore + ' computer: ' + computerScore)
@@ -89,15 +81,24 @@ function playRound(playerChoice, computerChoice){
     resultDisplay.textContent = result; 
     contentDisplay.appendChild(resultDisplay);
     scoreDisplay()
-   // return score_flag;
+    checkScores()
 
 }
 
+function checkScores(){
+
+    if(humanScore === 5 || computerScore === 5) {
+        console.log('FINISH: human:' + humanScore + ' computer: ' + computerScore)
+        pickTheWinner()
+    }
+ 
+}
+
 function scoreDisplay(){
-    const playersScoreDisplay_holder = document.createElement('p');
-    playersScoreDisplay_holder.classList.add('scoreLive')
-    playersScoreDisplay_holder.textContent = 'Your score:' + humanScore + ' VS ' + 'Computer score: ' + computerScore;
-    contentDisplay.appendChild(playersScoreDisplay_holder);
+
+    const playersScoreDisplay_holder = document.querySelector('.scoreLive')
+    playersScoreDisplay_holder.textContent = " ";
+    playersScoreDisplay_holder.textContent = 'Scores-> You: ' + humanScore + ' VS ' + 'Computer score: ' + computerScore;
 }
 
 function progressDisplay(playerChoice,computerChoice){
@@ -115,27 +116,24 @@ function progressDisplay(playerChoice,computerChoice){
 function pickTheWinner(){
 
     if(humanScore > computerScore){
+        alert("you are the winner! ")
         console.log("you are the winner")
     }
 
     if(computerScore > humanScore){
+        alert("The computer wins ")
         console.log("The computer wins")
     } 
 }
 
 function playTheGame(e){
 
-    const playerChoice = e.currentTarget.innerText;
-    const computerChoice = getComputerChoice();
-    progressDisplay(playerChoice,computerChoice);
+        const playerChoice = e.currentTarget.innerText;
+        const computerChoice = getComputerChoice();
+        progressDisplay(playerChoice,computerChoice);
 
-    if (humanScore < 5 && computerScore < 5){
         playRound(playerChoice, computerChoice)
-    } else {
-        console.log('FINISH: human:' + humanScore + ' computer: ' + computerScore)
-        pickTheWinner()
-    };
-  
+
 }
 
 
@@ -143,22 +141,21 @@ function playTheGame(e){
 function initiateGame() {
 
     const choices = Array.from(document.querySelectorAll('.choices'));
-    choices.forEach(function(choice){return choice.addEventListener('click', playTheGame)})
-
-        
+    choices.forEach(function(choice){return choice.addEventListener('click', playTheGame)})           
 }
  
 
-// Global variable need to be accessible in all functions
+// Global variables need to be accessible in all functions
 var computerScore = 0;
 var humanScore = 0;
-
 const content = document.querySelector('body');
 
 // default page display
 let contentDisplay = document.createElement('div');
 let scoreTitle = document.createElement('h1');
-scoreTitle.textContent = 'Scores:';
+scoreTitle.classList.add('scoreLive')
+scoreTitle.textContent = 'Scores-> You: ' +  humanScore + ' VS ' + 'Computer score: ' + computerScore;
+
 // update plage display to DOM 
 content.appendChild(contentDisplay)
 contentDisplay.appendChild(scoreTitle)
